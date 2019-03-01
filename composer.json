@@ -18,7 +18,7 @@
     },
    "autoload": {
         "psr-4": {
-            "RedAnt\\TwigComponentBundle\\": ""
+            "RedAnt\\TwigComponentsBundle\\": ""
         },
         "exclude-from-classmap": [
             "/Tests/"
