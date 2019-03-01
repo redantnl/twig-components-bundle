@@ -28,12 +28,12 @@ This includes:
 ### Global variable
 
 If you don't like the name of the global variable that defines the components,
-use the `twig_component.global_variable` parameter to change this:
+use the `twig_components.global_variable` parameter to change this:
 
 ```yaml
 # app/config/twig.yaml
 
-twig_component:
+twig_components:
     global_variable: 'ui'
 ```
 
