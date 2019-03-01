@@ -61,7 +61,7 @@ Description:
   Generate documentation for Twig components
 
 Usage:
-  twig:component:generate-docs [options] <path>
+  twig:components:generate-docs [options] <path>
 
 Arguments:
   path                  Output directory
