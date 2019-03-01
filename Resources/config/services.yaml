@@ -1,0 +1,21 @@
+parameters:
+    twig_components.global_variable: 'component'
+
+services:
+    RedAnt\TwigComponentsBundle\Command\GenerateDocsCommand:
+        arguments:
+            - '@RedAnt\TwigComponents\Registry'
+            - '@twig'
+            - '%twig_components.global_variable%'
+        tags: [ 'console.command' ]
+
+    RedAnt\TwigComponents\Registry:
+        arguments:
+            - '@twig'
+            - '@property_accessor'
+
+    RedAnt\TwigComponents\Extension:
+        arguments:
+            - '@RedAnt\TwigComponents\Registry'
+            - '%twig_components.global_variable%'
+        tags: [ 'twig.extension' ]

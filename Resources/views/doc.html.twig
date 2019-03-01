@@ -1,0 +1,206 @@
+{% set title = 'Twig Components reference' %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- This layout is based on http://semantic-ui-forest.com/templates/bootstrap/blog/ by Semantic-UI-Forest -->
+
+    <meta charset="utf-8"/>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+    <meta content="width=1300, initial-scale=1 user-scalable=yes" name="viewport"/>
+    <title>{{ title }}</title>
+    <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
+    <script src="http://code.jquery.com/jquery-3.2.1.min.js" type="text/javascript"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/twig.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <style type="text/css">
+        body { font-family: Georgia, "Times New Roman", "Times", serif; }
+        .ui.sub.header { text-transform: none;}
+        #page-header { margin-top: 4em; }
+        #page-header h1 { font-size: 60px; }
+        #page-header span { font-size: 20px; color: grey; }
+        #article { font-size: 16px; line-height: 1.3; }
+
+        #article h2 { font-size: 40px; padding-top: 50px; }
+        #article span { color: grey; }
+        #article .four.wide.column .ui.secondary.segment { border: none; }
+        #article .four.wide.column .ui.list .item { font-size: 14px; }
+
+        pre { margin-top: 0; margin-bottom: 0; }
+        .hljs { background-color: transparent; }
+        blockquote { font-size: 18px; padding: 0.6rem 1rem 0.4rem; margin: 0 0 0.8rem; border-left: 3px solid #009fda; }
+
+        .ui.footer.segment { margin-bottom: 0; }
+    </style>
+</head>
+<body>
+
+<div class="ui borderless fixed blue inverted pointing menu">
+    <div class="ui container">
+        <span class="header item">{{ title }}</span>
+    </div>
+</div>
+
+<div class="ui grid container">
+    <div class="row" id="page-header">
+        <div class="ui basic segment">
+            <h1 class="ui sub header">
+                {{ title }}
+            </h1>
+        </div>
+    </div>
+
+    <div class="row" id="article">
+        <div class="twelve wide column">
+            <div class="ui right rail">
+                <div class="ui sticky">
+                    {% block about %}
+                        <div class="ui secondary segment">
+                            <h4 class="ui header">
+                                About
+                            </h4>
+                            <p>
+                                This documentation is automatically generated from Twig components by RedAnt
+                                <a href="https://github.com/redant-nl/twig-components-bundle">TwigComponentsBundle</a>.
+                            </p>
+                        </div>
+                    {% endblock about %}
+                    {% block component_list %}
+                        <h4 class="ui header">
+                            Components
+                        </h4>
+                        <div class="ui list">
+                            {% for component, definition in components %}
+                                <a class="item" href="#{{ component }}">{{ component|replace({'.': ' '})|title }}</a>
+                            {% endfor %}
+                        </div>
+                    {% endblock component_list %}
+                </div>
+            </div>
+
+            {% block welcome %}
+                <blockquote>
+                    This is the reference documentation for Twig Components.
+                    <br><br>
+                    Components are robust, reusable and
+                    automatically documented Twig constructs. A Twig component defines a number of properties with
+                    strict typing, default values, and comments for these properties, and specifies which properties
+                    are required.
+                </blockquote>
+            {% endblock welcome %}
+
+            {% for component, definition in components %}
+                <a name="{{ component }}"></a>
+
+                <h2 class="ui sub header">
+                    {{ component|replace({'.': ' '})|title }}
+                </h2>
+                <span><code>{{ attribute(templates, component) }}</code></span>
+
+                <h4 class="ui medium header">
+                    Usage
+                </h4>
+
+                <div class="ui secondary segment">
+                    {% if global is same as(false) %}
+                        {% set functionCall = 'render_component("' ~ component ~ '", ' %}
+                    {% elseif global is empty %}
+                        {% set functionCall = component %}
+                    {% else %}
+                        {% set functionCall = global ~ '.' ~ component %}
+                    {% endif %}
+
+                    {% set template = "{{ " ~ functionCall ~ "({" ~ "\n" %}
+                    {%- for property in definition if property.required %}
+                        {% set template = template ~ "    " ~ property.name ~ ': ' ~ property.exampleValue ~ ',' ~ "\n" %}
+                    {% endfor -%}
+                    {% set template = template ~ '}) }}' %}
+
+                    <pre><code>{{- template -}}</code></pre>
+                </div>
+
+                {% if global is not same as(false) %}
+                    <p>Alternatively, in <em>any</em> Twig environment, you can always use the
+                        <code>render_component("{{ component }}", {})</code> function.</p>
+                {% endif %}
+
+                <h4 class="ui medium header">
+                    Component properties
+                </h4>
+                <p>
+                    The {{ component|replace({'.': ' '})|title }} component defines the following properties.
+                </p>
+
+                <table class="ui celled striped table">
+                    <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Type</th>
+                        <th>Required</th>
+                        <th>Default value</th>
+                        <th>Comment</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for property in definition %}
+                        <tr>
+                            <td>{{ property.name }}</td>
+                            <td><code>{{ property.type }}</code></td>
+                            <td>
+                                {% if property.required %}
+                                    <div class="ui small green label">Yes</div>
+                                {% else %}
+                                    <div class="ui small red label">No</div>
+                                {% endif %}
+                            </td>
+                            <td><code>{% if property.defaultValue is iterable %}
+                                        [ '{{ property.defaultValue|join("', '") }}' ]
+                                    {% else %}
+                                        {{ property.defaultValue }}
+                                    {% endif %}</code></td>
+                            <td>{{ property.comment }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+                <h4 class="ui medium header">
+                    Example output
+                </h4>
+                <div class="ui secondary segment">
+                    {% set template = "{{ render_component('" ~ component ~ "', {" ~ "\n" %}
+                    {%- for property in definition if property.required %}
+                        {% set template = template ~ "    " ~ property.name ~ ': ' ~ property.exampleValue ~ ',' ~ "\n" %}
+                    {% endfor -%}
+                    {% set template = template ~ '}) }}' %}
+                    <pre><code>{{ include(template_from_string(template))|trim|escape }}</code></pre>
+                </div>
+                <p>
+                    Output may greatly differ based on the specified options.
+                </p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% block footer %}
+    <div class="ui footer secondary segment">
+        <div class="ui center aligned container">
+            <a href="#">Back to top</a>
+        </div>
+    </div>
+{% endblock footer %}
+
+<script>
+    $(document).ready(function () {
+        hljs.initHighlightingOnLoad();
+        $('.ui.sticky').sticky({
+            context: '#article',
+            offset: 50
+        });
+    });
+</script>
+</body>
+</html>

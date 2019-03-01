@@ -1,0 +1,6 @@
+* [Getting started](README.md)
+
+* Components
+{% for component in components %}
+  * [{{ component|replace({'.': ' '})|title }}](components/{{ component }}.md)
+{% endfor %}
