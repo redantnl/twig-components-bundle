@@ -7,6 +7,8 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\Finder\Finder;
+use Twig\Error\LoaderError;
+use Twig\Loader\FilesystemLoader;
 
 class FindComponentsPass implements CompilerPassInterface
 {
@@ -15,7 +17,7 @@ class FindComponentsPass implements CompilerPassInterface
     /**
      * @param ContainerBuilder $container
      *
-     * @throws \Twig_Error_Loader`
+     * @throws LoaderError
      * @throws \Exception
      */
     public function process(ContainerBuilder $container)
@@ -27,7 +29,7 @@ class FindComponentsPass implements CompilerPassInterface
 
         $componentRegistry = $container->findDefinition(Registry::class);
 
-        /** @var \Twig_Loader_Filesystem $twigLoader */
+        /** @var FilesystemLoader $twigLoader */
         $twigNamespaces = $container->get('twig.loader')->getNamespaces();
         foreach ($twigNamespaces as $twigNamespace) {
             if ('!' === $twigNamespace[0]) {
@@ -44,7 +46,7 @@ class FindComponentsPass implements CompilerPassInterface
      * @param string     $path
      * @param Definition $componentRegistry
      *
-     * @throws \Twig_Error_Loader
+     * @throws LoaderError
      */
     protected function addComponentsInPath(string $namespace, string $path, Definition $componentRegistry): void
     {
@@ -72,12 +74,12 @@ class FindComponentsPass implements CompilerPassInterface
      * @param \SplFileInfo $file
      * @param string       $templateReference
      *
-     * @throws \Twig_Error_Loader
+     * @throws LoaderError
      */
     private function ensureComponentIsDefinedInFile($componentName, $file, $templateReference): void
     {
         if (preg_match("/{%\s+component\s+$componentName\s+{/", file_get_contents($file->getRealPath())) <= 0) {
-            throw new \Twig_Error_Loader(
+            throw new LoaderError(
                 sprintf('Template "%s" does not contain a definition for component "%s"',
                     $templateReference, $componentName),
                 1, $templateReference);

@@ -10,6 +10,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
+use Twig\Extension\StringLoaderExtension;
 
 class GenerateDocsCommand extends Command
 {
@@ -21,7 +26,7 @@ class GenerateDocsCommand extends Command
     protected $templates;
 
     /**
-     * @var \Twig_Environment
+     * @var Environment
      */
     protected $twig;
 
@@ -30,7 +35,7 @@ class GenerateDocsCommand extends Command
      */
     protected $global;
 
-    public function __construct(Registry $componentRegistry, \Twig_Environment $twig, string $globalVariable)
+    public function __construct(Registry $componentRegistry, Environment $twig, string $globalVariable)
     {
         parent::__construct(static::$defaultName);
         $this->templates = $componentRegistry->getComponents();
@@ -57,9 +62,9 @@ class GenerateDocsCommand extends Command
      * @param InputInterface  $input
      * @param OutputInterface $output
      *
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -103,15 +108,15 @@ class GenerateDocsCommand extends Command
     /**
      * @return array
      *
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     protected function getDefinitionsFromTemplates(): array
     {
         $visitor = new ComponentNodeVisitor();
         $this->twig->addNodeVisitor($visitor);
-        $this->twig->addExtension(new \Twig_Extension_StringLoader());
+        $this->twig->addExtension(new StringLoaderExtension());
 
         /**
          * Parse all component templates.
