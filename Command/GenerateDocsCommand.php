@@ -35,6 +35,16 @@ class GenerateDocsCommand extends Command
      */
     protected $global;
 
+    /**
+     * @var array|string[]
+     */
+    protected $shortDescription;
+
+    /**
+     * @var array|string[]
+     */
+    protected $docBlock;
+
     public function __construct(Registry $componentRegistry, Environment $twig, string $globalVariable)
     {
         parent::__construct(static::$defaultName);
@@ -97,10 +107,12 @@ class GenerateDocsCommand extends Command
         foreach ($definitions as $component => $definition) {
             file_put_contents("$path/components/$component.md",
                 $this->twig->render('@RedAntTwigComponents/component.md.twig', [
-                    'component'  => $component,
-                    'definition' => $definition,
-                    'template'   => current($this->templates),
-                    'global'     => ($input->getOption('generic')) ? false : $this->global
+                    'component'         => $component,
+                    'short_description' => $this->shortDescription[$component],
+                    'comment'           => $this->docBlock[$component],
+                    'definition'        => $definition,
+                    'template'          => current($this->templates),
+                    'global'            => ($input->getOption('generic')) ? false : $this->global
                 ]));
         }
     }
@@ -122,7 +134,27 @@ class GenerateDocsCommand extends Command
          * Parse all component templates.
          */
         foreach ($this->templates as $name => $template) {
+            $componentName = Registry::getDotNotatedComponentName($template);
+
+            $componentDocBlock = null;
             $source = $this->twig->load($template)->getSourceContext();
+
+            // Parse first doc block before component tag, if it exists
+            preg_match('/^\s*{#([\s\S]+?)(?=#})[\s\S]+?{%\scomponent/s', $source->getCode(), $matches);
+            if (count($matches) >= 2) {
+
+                $componentDocBlock = trim($matches[1]);
+                $trimmedLines = array_map(function ($line) {
+                    return trim($line);
+                }, explode("\n", $componentDocBlock));
+
+                $this->shortDescription[$componentName] = array_shift($trimmedLines);
+                $this->docBlock[$componentName] = join("\n", $trimmedLines);
+            } else {
+                $this->shortDescription[$componentName] = '';
+                $this->docBlock[$componentName] = '';
+            }
+
             $tokens = $this->twig->tokenize($source);
             $this->twig->parse($tokens);
         }

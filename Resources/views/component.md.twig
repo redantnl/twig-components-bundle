@@ -25,14 +25,10 @@
 {% endspaceless %}
 # {{ component|replace({'.': ' '})|title }}
 
-## Usage
-
-```twig
-{{ template|raw }}
-```
-
-{% if global is not same as(false) %}
-Alternatively, in _any_ Twig environment, you can always use the `render_component("{{ component }}", {})` function.</p>
+{% if short_description %}**{{ short_description }}**
+{% endif %}
+{% if comment %}
+{{ comment }}
 {% endif %}
 
 ## Properties
@@ -44,6 +40,16 @@ Property | Type | Default value | Comment
 {% for property in definition %}
 {{ property.name }}{% if property.required %}*****{% endif %} | `{{ property.type }}` | {% if property.defaultValue is iterable %}`[{% if property.defaultValue|length > 0 %} '{{ property.defaultValue|join("', '") }}' {% endif %}]`{% elseif property.defaultValue is same as (false) or property.defaultValue is not empty %}`{% if property.type == 'bool' %}{{ property.defaultValue ? 'true' : 'false' }}{% else %}{{ property.defaultValue }}{% endif %}`{% endif %} | {{ property.comment }}
 {% endfor %}
+
+## Usage
+
+```twig
+{{ template|raw }}
+```
+
+{% if global is not same as(false) %}
+Alternatively, in _any_ Twig environment, you can always use the `render_component("{{ component }}", {})` function.</p>
+{% endif %}
 
 ## Example output
 

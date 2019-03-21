@@ -54,7 +54,7 @@ will be accessible as `component.ui.button({})` or via
 ## Generate documentation
 
 You can generate a static HTML file with documentation using the supplied
-`twig:components:generate-docs` command. 
+`twig:components:generate-docs` command.
 
 ```console
 Description:
@@ -70,6 +70,9 @@ Options:
   --title=TITLE         Title for the generated documentation [default: "Twig components"]
   --generic             Disregard twig_component.global_variable settings and only show render_component() examples```
 ```
+
+When you start your component template file with a comment (`{# ... #}`),
+its contents will be added at the top of the documentation for the component.
 
 ## License
 
