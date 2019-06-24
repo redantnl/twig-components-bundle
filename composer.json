@@ -14,7 +14,8 @@
         "symfony/console": "^4.0",
         "symfony/dependency-injection": "^4.0",
         "symfony/finder": "^4.0",
-        "symfony/twig-bundle": "^4.0"
+        "symfony/twig-bundle": "^4.0",
+        "twig/twig": "~1.41|~2.10"
     },
    "autoload": {
         "psr-4": {
