@@ -13,12 +13,9 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
+        $treeBuilder = new TreeBuilder('twig_components');
 
-        /** @var ArrayNodeDefinition $rootNode */
-        $rootNode = $treeBuilder->root('twig_components');
-
-        $rootNode
+        $treeBuilder->getRootNode()
             ->addDefaultsIfNotSet()
             ->children()
                 ->scalarNode('global_variable')->defaultValue('component')->cannotBeEmpty()->end()
