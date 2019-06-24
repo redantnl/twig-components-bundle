@@ -1,4 +1,4 @@
-{% spaceless %}
+{% apply spaceless %}
     {% if global is same as(false) %}
         {% set functionCall = 'render_component("' ~ component ~ '", ' %}
     {% elseif global is empty %}
@@ -8,21 +8,21 @@
     {% endif %}
 
     {% set template = "{{ " ~ functionCall ~ "({ " ~ "\n" %}
-    {%- for property in definition if property.required or property.preview %}
+    {%- for property in definition|filter(property => property.required or property.preview) %}
         {% set template = template ~ "    " ~ property.name ~ ': ' ~ property.getPreview(true) ~ ',' ~ "\n" %}
     {% endfor -%}
     {% set template = template|slice(0, -2) ~ "\n" ~ '}) }}' %}
 
     {% set noTemplate = false %}
     {% set outputTemplate = "{{ render_component('" ~ component ~ "', { " ~ "\n" %}
-    {%- for property in definition if property.required or property.preview %}
+    {%- for property in definition|filter(property => property.required or property.preview) %}
         {% set outputTemplate = outputTemplate ~ "    " ~ property.name ~ ': ' ~ property.preview(true) ~ ',' ~ "\n" %}
         {% if property.required and '\\' in property.type %}{% set noTemplate = true %}{% endif %}
     {% endfor -%}
     {% set outputTemplate = outputTemplate|slice(0, -2) ~ "\n" ~'}) }}' %}
 
     {% if noTemplate %}{% set outputTemplate = 'Preview cannot be generated' %}{% endif %}
-{% endspaceless %}
+{% endapply %}
 # {{ component|replace({'.': ' '})|title }}
 
 {% if short_description %}**{{ short_description }}**
