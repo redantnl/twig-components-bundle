@@ -113,7 +113,7 @@
                     {% endif %}
 
                     {% set template = "{{ " ~ functionCall ~ "({" ~ "\n" %}
-                    {%- for property in definition if property.required %}
+                    {%- for property in definition|filter(property => property.required is same as(true)) %}
                         {% set template = template ~ "    " ~ property.name ~ ': ' ~ property.exampleValue ~ ',' ~ "\n" %}
                     {% endfor -%}
                     {% set template = template ~ '}) }}' %}
@@ -171,7 +171,7 @@
                 </h4>
                 <div class="ui secondary segment">
                     {% set template = "{{ render_component('" ~ component ~ "', {" ~ "\n" %}
-                    {%- for property in definition if property.required %}
+                    {%- for property in definition|filter(property => property.required is same as(true)) %}
                         {% set template = template ~ "    " ~ property.name ~ ': ' ~ property.exampleValue ~ ',' ~ "\n" %}
                     {% endfor -%}
                     {% set template = template ~ '}) }}' %}
