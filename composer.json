@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "redant/twig-components": "^0.1",
+        "redant/twig-components": "dev-prep-sf5",
         "symfony/console": "^4.0|^5.0",
         "symfony/dependency-injection": "^4.0|^5.0",
         "symfony/finder": "^4.0|^5.0",
