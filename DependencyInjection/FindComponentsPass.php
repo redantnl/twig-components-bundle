@@ -78,11 +78,13 @@ class FindComponentsPass implements CompilerPassInterface
      */
     private function ensureComponentIsDefinedInFile($componentName, $file, $templateReference): void
     {
-        if (preg_match("/{%\s+component\s+$componentName\s+{/", file_get_contents($file->getRealPath())) <= 0) {
+        $contents = file_get_contents($file->getRealPath());
+
+        if (preg_match("/{%\s+component\s+$componentName\s+{/", $contents) <= 0) {
             throw new LoaderError(
                 sprintf('Template "%s" does not contain a definition for component "%s"',
                     $templateReference, $componentName),
-                1, $templateReference);
+                1, new Source($contents, $templateReference, $file));
         }
     }
 }
