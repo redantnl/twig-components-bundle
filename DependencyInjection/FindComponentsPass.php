@@ -9,6 +9,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\Finder\Finder;
 use Twig\Error\LoaderError;
 use Twig\Loader\FilesystemLoader;
+use Twig\Source;
 
 class FindComponentsPass implements CompilerPassInterface
 {
