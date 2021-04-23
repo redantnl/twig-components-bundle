@@ -7,7 +7,12 @@ Twig components using the new `component` tag. Twig components allow you to quic
 build and maintain your own UI toolkit, where each button, table or card has to be
 designed only once and can be used throughout your entire application.
 
-For more information about Twig Components, see [the documentation](https://github.com/redantnl/twig-components/blob/master/README.md).
+This Twig Components bundle for Symfony makes life a little bit easier by automatically
+searching your template directories for defined components, every time the Symfony
+container is compiled.
+
+For more information about Twig Components, see
+[the documentation](https://github.com/redantnl/twig-components/blob/master/README.md).
 
 ## Setup and Usage
 
@@ -53,6 +58,19 @@ will be accessible as `component.ui.button({})` or via
 
 ## Generate documentation
 
+The added bonus to creating component definitions is the automatic creation of documentation.
+It explains, for instance, what your component can be used for and which parameters it accepts.
+For example, the Twig Components bundle can automatically generate a table like this for an example
+button component:
+
+Property | Type | Default value | Comment
+:--- | :--- | :--- | :---
+container | `string` | `button` | HTML container element
+classes | `string[]` | `[ 'small' ]` | Additional button classes
+label* | `string` |  | Button text (rendered as raw HTML)
+url | `string` |  | Hyperlink
+confirm | `bool` | `false` | 
+
 You can generate a static HTML file with documentation using the supplied
 `twig:components:generate-docs` command.
 
@@ -71,7 +89,7 @@ Options:
   --generic             Disregard twig_component.global_variable settings and only show render_component() examples```
 ```
 
-When you start your component template file with a comment (`{# ... #}`),
+**Pro tip**: When you start your component template file with a comment (`{# ... #}`),
 its contents will be added at the top of the documentation for the component.
 
 ## License
