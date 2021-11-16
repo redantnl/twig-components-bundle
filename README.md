@@ -1,6 +1,6 @@
 # Twig Components
 
-A Symfony 4 bundle for the [Twig Components](https://github.com/redantnl/twig-components) library.
+A Symfony bundle for the [Twig Components](https://github.com/redantnl/twig-components) library.
 
 This bundle allows you to create robust, reusable and automatically documented
 Twig components using the new `component` tag. Twig components allow you to quickly
