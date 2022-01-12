@@ -76,7 +76,7 @@ class GenerateDocsCommand extends Command
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $path = rtrim($input->getArgument('path'), "/") . '/';

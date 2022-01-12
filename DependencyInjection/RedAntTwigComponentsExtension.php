@@ -25,7 +25,7 @@ class RedAntTwigComponentsExtension extends Extension
         $loader->load('services.yaml');
     }
 
-    public function getAlias()
+    public function getAlias(): string
     {
         return 'twig_components';
     }
