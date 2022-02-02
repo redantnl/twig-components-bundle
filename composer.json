@@ -11,10 +11,10 @@
     ],
     "require": {
         "redant/twig-components": "^1.0",
-        "symfony/console": "^4.4|^5.0",
-        "symfony/dependency-injection": "^4.4|^5.0",
-        "symfony/finder": "^4.4|^5.0",
-        "symfony/twig-bundle": "^4.4|^5.0",
+        "symfony/console": "^4.4|^5.0|^6.0",
+        "symfony/dependency-injection": "^4.4|^5.0|^6.0",
+        "symfony/finder": "^4.4|^5.0|^6.0",
+        "symfony/twig-bundle": "^4.4|^5.0|^6.0",
         "twig/twig": "~1.41|~2.10|^3.0"
     },
    "autoload": {
