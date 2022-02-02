@@ -115,6 +115,8 @@ class GenerateDocsCommand extends Command
                     'global'            => ($input->getOption('generic')) ? false : $this->global
                 ]));
         }
+
+        return 0;
     }
 
     /**
