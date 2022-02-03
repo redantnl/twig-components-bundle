@@ -1,6 +1,6 @@
 {
     "name": "redant/twig-components-bundle",
-    "description": "Twig Components bundle for Symfony 4",
+    "description": "Twig Components bundle for Symfony 4-6",
     "type": "symfony-bundle",
     "license": "MIT",
     "authors": [
