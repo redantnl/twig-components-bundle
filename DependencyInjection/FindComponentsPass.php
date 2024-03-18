@@ -21,7 +21,7 @@ class FindComponentsPass implements CompilerPassInterface
      * @throws LoaderError
      * @throws \Exception
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         // First check if the Twig Component Registry is defined and enabled
         if (!$container->has(Registry::class)) {
