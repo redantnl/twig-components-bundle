@@ -4,6 +4,7 @@ namespace RedAnt\TwigComponentsBundle\Command;
 
 use RedAnt\TwigComponents\NodeVisitor\ComponentNodeVisitor;
 use RedAnt\TwigComponents\Registry;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,34 +17,14 @@ use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twig\Extension\StringLoaderExtension;
 
+#[AsCommand(name: 'twig:components:generate-docs')]
 class GenerateDocsCommand extends Command
 {
-    protected static $defaultName = 'twig:components:generate-docs';
-
-    /**
-     * @var array
-     */
-    protected $templates;
-
-    /**
-     * @var Environment
-     */
-    protected $twig;
-
-    /**
-     * @var string
-     */
-    protected $global;
-
-    /**
-     * @var array|string[]
-     */
-    protected $shortDescription;
-
-    /**
-     * @var array|string[]
-     */
-    protected $docBlock;
+    protected array $templates;
+    protected Environment $twig;
+    protected string $global;
+    protected array $shortDescription;
+    protected array $docBlock;
 
     public function __construct(Registry $componentRegistry, Environment $twig, string $globalVariable)
     {
@@ -56,7 +37,7 @@ class GenerateDocsCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Generate documentation for Twig components')
@@ -68,14 +49,6 @@ class GenerateDocsCommand extends Command
                 'Disregard twig_component.global_variable settings and only show render_component() examples');
     }
 
-    /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
