@@ -28,7 +28,7 @@ class GenerateDocsCommand extends Command
 
     public function __construct(Registry $componentRegistry, Environment $twig, string $globalVariable)
     {
-        parent::__construct(static::$defaultName);
+        parent::__construct();
         $this->templates = $componentRegistry->getComponents();
         $this->twig = $twig;
         $this->global = $globalVariable;
