@@ -11,7 +11,7 @@
     ],
     "require": {
         "php": ">=8.0",
-        "redant/twig-components": "^1.0",
+        "redant/twig-components": "^1.0|dev-master",
         "symfony/console": ">=5.4",
         "symfony/dependency-injection": ">=5.4",
         "symfony/finder": ">=5.4",
