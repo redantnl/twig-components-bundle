@@ -16,7 +16,7 @@
         "symfony/dependency-injection": ">=5.4",
         "symfony/finder": ">=5.4",
         "symfony/twig-bundle": ">=5.4",
-        "twig/twig": "~1.41|~2.10|>=3.0"
+        "twig/twig": ">=3.21"
     },
    "autoload": {
         "psr-4": {
